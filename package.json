@@ -16,7 +16,6 @@
     "json-stringify-safe": "^5.0.1",
     "macaca-utils": "^1.0.0",
     "microtemplate": "^1.0.2",
-    "mocha": "^2.4.5",
     "xlogger": "^1.0.6"
   },
   "devDependencies": {
@@ -24,7 +23,7 @@
     "babel-core": "^6.17.0",
     "babel-loader": "^7.1.0",
     "babel-plugin-import": "^1.0.1",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "cross-env": "^5.1.1",
@@ -34,26 +33,33 @@
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.2.1",
     "extract-text-webpack-plugin": "^3.0.0",
-    "istanbul": "^0.4.5",
+    "istanbul-instrumenter-loader": "^3.0.0",
     "json-loader": "^0.5.7",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "lodash": "^4.17.4",
+    "macaca-cli": "^2.0.12",
+    "macaca-electron": "^1.1.17",
+    "macaca-istanbul": "^1.0.2",
+    "macaca-reporter": "^1.0.36",
+    "macaca-wd": "^1.0.18",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-syntax-highlighter": "^5.6.3",
-    "should": "^11.1.2",
     "socket.io": "^2.0.3",
     "style-loader": "^0.18.2",
-    "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7",
+    "xutil": "^1.0.9"
   },
   "scripts": {
     "dev": "webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack -p --progress --hide-modules",
-    "lint": "eslint .",
+    "lint": "eslint --fix assets test",
     "prepublish": "npm run build",
-    "test": "mocha"
+    "serve": "npm run dev &",
+    "test": "macaca run -d ./test --verbose --reporter macaca-reporter",
+    "ci": "npm run lint && npm run serve && npm run test"
   },
   "homepage": "https://macacajs.github.io/pageuitest",
   "license": "MIT"

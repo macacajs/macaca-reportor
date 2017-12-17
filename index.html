@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>macaca reporter demo</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  </head>
+  <body>
+    <div id="macaca-reporter" data-output="%7B%22stats%22:%7B%22suites%22:0,%22tests%22:0,%22passes%22:0,%22pending%22:0,%22failures%22:0,%22start%22:%222017-12-17T03:24:02.802Z%22,%22passPercent%22:0,%22pendingPercent%22:0,%22other%22:0,%22hasOther%22:false,%22skipped%22:1,%22hasSkipped%22:false,%22duration%22:0,%22end%22:%222017-12-17T03:24:02.802Z%22%7D,%22suites%22:%7B%7D,%22current%22:%7B%22image%22:%22https://macacajs.github.io/macaca-logo/svg/monkey.svg%22,%22list%22:%5B%7B%22title%22:%22info1%20title%22,%22value%22:%22info1%20content%22%7D,%7B%22title%22:%22info2%20title%22,%22value%22:%22info2%20content%22%7D,%7B%22title%22:%22info3%20title%22,%22value%22:%22info3%20content%22%7D%5D%7D%7D">
+      <script>
+        window.pageConfig = window.pageConfig || {};
+        var assetsUrl = window.pageConfig.assetsUrl || '//' + location.hostname + ':' + location.port;
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = assetsUrl + '/dist/macaca-reporter.js';
+        script.onload = function() {
+          window._macaca_reportor._render();
+        };
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = assetsUrl + '/dist/macaca-reporter.css';
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(link);
+        head.appendChild(script);
+      </script>
+    </div>
+  </body>
+</html>

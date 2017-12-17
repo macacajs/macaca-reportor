@@ -6,7 +6,10 @@ npm-debug.log
 .idea/*
 Thumbs.db
 coverage/
+reports/
+screenshots/
 .project
+.ready
 build/
 logs/
 *.sw*

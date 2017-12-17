@@ -1,8 +1,10 @@
 coverage.html
 node_modules
 .travis.yml
-Makefile
 coverage/
+reports/
+screenshots/
 logs/
+.ready
 *.sw*
 *.un~

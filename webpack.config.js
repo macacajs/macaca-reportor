@@ -1,9 +1,22 @@
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const pkg = require('./package');
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+class WebpackAfterAllPlugin {
+  apply(compiler) {
+    compiler.plugin('done', (compilation) => {
+      setTimeout(() => {
+        fs.writeFileSync(path.join(__dirname, '.ready'), '')
+      }, 1000)
+    })
+  }
+}
 
 module.exports = {
 
@@ -25,7 +38,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['react', 'es2015', 'latest'],
+            presets: ['react', 'env', 'latest'],
             plugins: [
               [
                 'import',
@@ -37,9 +50,19 @@ module.exports = {
             ]
           }
         }
+      }, isProduction ? {} : {
+        test: /\.js[x]?$/,
+        enforce: 'post',
+        exclude: /node_modules/,
+        loader: 'istanbul-instrumenter-loader',
+        query: {
+          esModules: true,
+          coverageVariable: '__macaca_coverage__'
+        }
       }, {
         test: /\.json$/,
-        loader: 'json-loader'
+        loader: 'json-loader',
+        exclude: /node_modules/
       }, {
         test: /\.less$/,
         loader: ExtractTextPlugin.extract({
@@ -56,6 +79,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin(`${pkg.name}.css`)
+    new ExtractTextPlugin(`${pkg.name}.css`),
+    new WebpackAfterAllPlugin()
   ]
 };

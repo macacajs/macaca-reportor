@@ -208,7 +208,7 @@ export default class Suite extends React.Component {
               >
                 { record.code }
               </SyntaxHighlighter>
-              { record.context && <img src={ record.context.replace(/\"/g, '') } />}
+              { record.context && <a href={ record.context.replace(/\"/g, '') } target="_blank"><img src={ record.context.replace(/\"/g, '') } /></a>}
             </div>
           }
           dataSource={ allTest }

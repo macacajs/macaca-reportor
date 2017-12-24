@@ -10,11 +10,9 @@ import {
 
 import io from 'socket.io-client';
 
-const {
-  Header,
-  Footer,
-  Content
-} = Layout;
+const Header = Layout.Header;
+const Footer = Layout.Footer;
+const Content = Layout.Content;
 
 import Suite from './components/Suite';
 import NavBar from './components/NavBar';

@@ -1,4 +1,25 @@
 {
-  "presets": ["react", "env", "latest"],
-  "comments": false
+  presets: [
+    'env',
+    'latest',
+    'react',
+  ],
+  comments: false,
+  plugins: [
+    [
+      'import',
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'lib',
+        style: 'css'
+      },
+    ]
+  ],
+  env: {
+    test: {
+      plugins: [
+        'istanbul'
+      ]
+    }
+  }
 }

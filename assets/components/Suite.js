@@ -8,7 +8,8 @@ import {
 import {
   Table,
   Icon,
-  Progress
+  Progress,
+  Radio
 } from 'antd';
 
 import _ from '../common/helper';
@@ -139,6 +140,10 @@ export default class Suite extends React.Component {
     }
   }
 
+  handleSizeChange() {
+
+  }
+
   render() {
     let allTest = [];
     let failKeys = [];
@@ -203,6 +208,17 @@ export default class Suite extends React.Component {
 
     return (
       <div className="suite">
+        <Radio.Group value='default' onChange={this.handleSizeChange}>
+          <Radio.Button value="default">
+            <Icon type="eye-o" />
+          </Radio.Button>
+          <Radio.Button value="small">
+            <Icon type="picture" />
+          </Radio.Button>
+          <Radio.Button value="large">
+            <Icon type="table" />
+          </Radio.Button>
+        </Radio.Group>
         <div className="file-head">
           <div className="file-head-top">
             <h1>{ allStats.title }</h1>

@@ -5,20 +5,29 @@ import ReactDom from 'react-dom';
 
 import {
   Affix,
-  Layout
+  Progress,
+  Icon,
+  Card,
+  Col,
+  Row,
+  Layout,
+  Radio
 } from 'antd';
 
 import io from 'socket.io-client';
+import _ from './common/helper';
 
 const Header = Layout.Header;
 const Footer = Layout.Footer;
 const Content = Layout.Content;
+const { Meta } = Card;
 
 import Suite from './components/Suite';
 import NavBar from './components/NavBar';
 import Screen from './components/Screen';
 
 const pkg = require('../package.json');
+window.images = [];
 
 require('./app.less');
 
@@ -32,7 +41,9 @@ class App extends React.Component {
     super(props);
     container = document.querySelector(`#${pkg.name}`);
     this.state = {
-      output: JSON.parse(decodeURI(container.getAttribute(dataAttr)))
+      output: JSON.parse(decodeURI(container.getAttribute(dataAttr))),
+      caseShowType: location.hash.replace('#', '') || 'tree',
+      images: []
     };
   }
 
@@ -43,6 +54,57 @@ class App extends React.Component {
         window.open(href);
       }, false);
     })
+
+    let timer = setInterval(() => {
+      if (window.images) {
+        clearInterval(timer)
+        this.setState({
+          images: window.images
+        })
+      }
+    }, 100)
+  }
+
+  handleRadioChange(e) {
+    const radio = e.target.value;
+    location.hash = radio;
+
+    this.setState({
+      caseShowType: e.target.value,
+    });
+  }
+
+  handleOpenImg(e) {
+    window.open(e.target.src);
+  }
+
+  renderImages(images) {
+    if (this.state.caseShowType !== 'image') {
+      return null
+    }
+
+    const imgs = _.uniqBy(images, item => item.src)
+
+    const cards = imgs.map((img, index) => {
+      return (
+        <Col key={ index } span={4} style={{ padding: '5px' }}>
+          <Card
+            hoverable
+            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ img.src } />}
+          >
+            <Meta
+              description={ img.text }
+            />
+          </Card>
+        </Col>
+      );
+    })
+
+    return (
+      <Row style={{ width: '1280px', margin: '0 auto' }}>
+        {cards}
+      </Row>
+    );
   }
 
   render() {
@@ -50,6 +112,8 @@ class App extends React.Component {
     const stats = this.state.output && this.state.output.stats;
     const current = this.state.output && this.state.output.current;
     const originSuites = this.state.output && this.state.output.suites;
+    const caseShowType = this.state.caseShowType;
+    const imgs = this.state.images;
 
     return (
       <Layout>
@@ -59,12 +123,26 @@ class App extends React.Component {
           </Header>
         </Affix>
         <Content>
+          <div className="case-show-panel">
+            <Radio.Group className="case-show-radio" value={caseShowType} onChange={this.handleRadioChange.bind(this)}>
+              <Radio.Button value="tree">
+                <Icon type="eye-o" />
+              </Radio.Button>
+              <Radio.Button value="image">
+                <Icon type="picture" />
+              </Radio.Button>
+              <Radio.Button value="text">
+                <Icon type="table" />
+              </Radio.Button>
+            </Radio.Group>
+          </div>
           <Screen current={ current } />
           {
             originSuites.suites && originSuites.suites.map((suite, index) => {
-              return <Suite suite={ suite } key={ index } />
+              return <Suite showSuite={ caseShowType !== 'image' } showSvg={ caseShowType !== 'text' } suite={ suite } key={ index } />
             })
           }
+          {this.renderImages(imgs)}
         </Content>
         <Footer>
           &copy;&nbsp;<a href={ pkg.homepage }>Macaca Team</a> { new Date().getFullYear() }

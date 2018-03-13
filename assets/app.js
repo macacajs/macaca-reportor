@@ -15,18 +15,19 @@ import {
 } from 'antd';
 
 import io from 'socket.io-client';
-import _ from './common/helper';
 
 const Header = Layout.Header;
 const Footer = Layout.Footer;
 const Content = Layout.Content;
 const { Meta } = Card;
 
+import _ from './common/helper';
 import Suite from './components/Suite';
 import NavBar from './components/NavBar';
 import Screen from './components/Screen';
 
-const pkg = require('../package.json');
+const pkg = require('../package.json')
+
 window.images = [];
 
 require('./app.less');
@@ -62,7 +63,7 @@ class App extends React.Component {
           images: window.images
         })
       }
-    }, 100)
+    }, 100);
   }
 
   handleRadioChange(e) {
@@ -80,10 +81,10 @@ class App extends React.Component {
 
   renderImages(images) {
     if (this.state.caseShowType !== 'image') {
-      return null
+      return null;
     }
 
-    const imgs = _.uniqBy(images, item => item.src)
+    const imgs = _.uniqBy(images, item => item.src);
 
     const cards = imgs.map((img, index) => {
       return (
@@ -101,7 +102,10 @@ class App extends React.Component {
     })
 
     return (
-      <Row style={{ width: '1280px', margin: '0 auto' }}>
+      <Row style={{
+        width: '1280px',
+        margin: '30px auto'
+      }}>
         {cards}
       </Row>
     );
@@ -123,18 +127,22 @@ class App extends React.Component {
           </Header>
         </Affix>
         <Content>
-          <div className="case-show-panel">
-            <Radio.Group className="case-show-radio" value={caseShowType} onChange={this.handleRadioChange.bind(this)}>
-              <Radio.Button value="tree">
-                <Icon type="eye-o" />
-              </Radio.Button>
-              <Radio.Button value="image">
-                <Icon type="picture" />
-              </Radio.Button>
-              <Radio.Button value="text">
-                <Icon type="table" />
-              </Radio.Button>
-            </Radio.Group>
+          <div style={{
+            background: this.state.caseShowType === 'image' ? '#fff' : '#f7f7f7'
+          }}>
+            <div className="case-show-panel">
+              <Radio.Group className="case-show-radio" value={caseShowType} onChange={this.handleRadioChange.bind(this)}>
+                <Radio.Button value="tree">
+                  <Icon type="eye-o" />
+                </Radio.Button>
+                <Radio.Button value="image">
+                  <Icon type="picture" />
+                </Radio.Button>
+                <Radio.Button value="text">
+                  <Icon type="table" />
+                </Radio.Button>
+              </Radio.Group>
+            </div>
           </div>
           <Screen current={ current } />
           {
@@ -142,7 +150,7 @@ class App extends React.Component {
               return <Suite showSuite={ caseShowType !== 'image' } showSvg={ caseShowType !== 'text' } suite={ suite } key={ index } />
             })
           }
-          {this.renderImages(imgs)}
+          { this.renderImages(imgs) }
         </Content>
         <Footer>
           &copy;&nbsp;<a href={ pkg.homepage }>Macaca Team</a> { new Date().getFullYear() }

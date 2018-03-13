@@ -57,7 +57,7 @@
     "dev": "webpack-dev-server",
     "dev:test": "NODE_ENV=test webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack -p",
-    "lint": "eslint --fix assets test",
+    "lint": "eslint --ext js,jsx --fix assets test",
     "prepublish": "npm run build",
     "serve": "npm run dev:test &",
     "test": "macaca run -d ./test --reporter macaca-reporter",

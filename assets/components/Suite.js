@@ -157,7 +157,7 @@ export default class Suite extends React.Component {
         suite.tests.forEach(test => {
           test.key = this._guid();
           test.state = this.getCaseState(test);
-          test.duration += 'ms';
+          test.duration = `${test.duration}ms`;
 
           if (!test.pass) {
             failKeys.push(test.key);

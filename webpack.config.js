@@ -5,8 +5,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const pkg = require('./package');
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 module.exports = {
 
   entry: {
@@ -56,5 +54,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
-    }),  ]
+    })
+  ]
 };

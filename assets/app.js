@@ -57,6 +57,7 @@ class App extends React.Component {
     this.state = {
       output,
       caseShowType,
+      hashError: output.stats.failures,
       images: []
     };
   }
@@ -152,9 +153,9 @@ class App extends React.Component {
                 <Radio.Button value="text">
                   <Icon type="table" />
                 </Radio.Button>
-                <Radio.Button value="error">
-                  <Icon type="close-circle" theme="twoTone" twoToneColor="red" />
-                </Radio.Button>
+                {this.state.hashError ? <Radio.Button value="error">
+                  <Icon type="question-circle" theme="twoTone" twoToneColor="red" />
+                </Radio.Button> : ''}
               </Radio.Group>
             </div>
           </div>

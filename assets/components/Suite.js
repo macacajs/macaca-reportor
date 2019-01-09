@@ -130,7 +130,7 @@ export default class Suite extends React.Component {
     if (state.pass) {
       return <span style={{color:'#a5d86e'}}><Icon type="check" />passed</span>;
     } else if (state.fail) {
-      return <span style={{color:'#df5869'}}><Icon type="close" />failed</span>;
+      return <span style={{color:'#df5869'}}><Icon type="close" style={{ verticalAlign: 'sub' }} />failed</span>;
     } else if (state.pending) {
       return <span style={{color:'rgb(234, 187, 56)'}}><Icon type="pause" />pending</span>;
     } else if (state.skipped) {
@@ -155,20 +155,26 @@ export default class Suite extends React.Component {
     const getTest = suites => {
       suites.forEach(suite => {
         suite.tests.forEach(test => {
-          test.key = this._guid();
-          test.state = this.getCaseState(test);
-          test.duration = `${test.duration}ms`;
+          if ((this.props.showError && test.fail) || !this.props.showError) {
+            test.key = this._guid();
+            test.state = this.getCaseState(test);
 
-          if (!test.pass) {
-            failKeys.push(test.key);
-          }
-          allTest.push(test);
+            if (test.duration && !~(test.duration + '').indexOf('ms')) {
+              test.duration = `${test.duration}ms`;
+            }
 
-          if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
-            images.push({
-              src: test.context.replace(/"/g, ''),
-              text: test.title,
-            });
+            if (!test.pass) {
+              failKeys.push(test.key);
+            }
+
+            allTest.push(test);
+
+            if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
+              images.push({
+                src: test.context.replace(/"/g, ''),
+                text: test.title,
+              });
+            }
           }
         });
         allStats.totalFailures += suite.totalFailures;
@@ -207,8 +213,14 @@ export default class Suite extends React.Component {
       percent = parseInt(allStats.totalPasses / allStats.totalTests * 100, 10);
     }
 
+    const showSvg = this.props.showSvg;
+    let showSuite = this.props.showSuite;
+    if (this.props.showError) {
+      showSuite = allStats.totalFailures > 0;
+    }
+
     return (
-      <div className="suite" style={{ display: this.props.showSuite ? 'block' : 'none' }}>
+      <div className="suite" style={{ display: showSuite ? 'block' : 'none' }}>
         <div className="file-head">
           <div className="file-head-top">
             <h1>{ allStats.title }</h1>
@@ -228,11 +240,11 @@ export default class Suite extends React.Component {
           </ul>
         </div>
 
-        <div style={{ display: this.props.showSvg ? 'block' : 'none' }} className={ `ani-box d3-tree-${this.uid}` }></div>
+        <div style={{ display: showSvg ? 'block' : 'none' }} className={ `ani-box d3-tree-${this.uid}` }></div>
         <Table
           pagination={ !this.props.showSvg }
           columns={ columns }
-          defaultExpandedRowKeys={ failKeys }
+          expandedRowKeys={ failKeys }
           expandedRowRender={ record =>
             <div>
               <SyntaxHighlighter

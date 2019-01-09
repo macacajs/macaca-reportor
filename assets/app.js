@@ -42,9 +42,21 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     container = document.querySelector(`#${pkg.name}`);
+
+    const output = JSON.parse(decodeURI(container.getAttribute(dataAttr)));
+
+    let caseShowType = 'tree';
+    const hashMode = location.hash.replace('#mode=', '');
+
+    if (hashMode) {
+      caseShowType = hashMode;
+    } else if (output.stats.failures) {
+      caseShowType = 'error';
+    }
+
     this.state = {
-      output: JSON.parse(decodeURI(container.getAttribute(dataAttr))),
-      caseShowType: location.hash.replace('#mode=', '') || 'tree',
+      output,
+      caseShowType,
       images: []
     };
   }
@@ -140,6 +152,9 @@ class App extends React.Component {
                 <Radio.Button value="text">
                   <Icon type="table" />
                 </Radio.Button>
+                <Radio.Button value="error">
+                  <Icon type="exclamation-circle" theme="twoTone" twoToneColor="red" />
+                </Radio.Button>
               </Radio.Group>
             </div>
           </div>
@@ -149,7 +164,8 @@ class App extends React.Component {
               return (
                 <Suite
                   showSuite={ caseShowType !== 'image' }
-                  showSvg={ caseShowType !== 'text' }
+                  showSvg={ caseShowType !== 'text' && caseShowType !== 'error' }
+                  showError={ caseShowType === 'error' }
                   suite={ suite }
                   key={ index }
                 />

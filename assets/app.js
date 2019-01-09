@@ -153,7 +153,7 @@ class App extends React.Component {
                   <Icon type="table" />
                 </Radio.Button>
                 <Radio.Button value="error">
-                  <Icon type="exclamation-circle" theme="twoTone" twoToneColor="red" />
+                  <Icon type="close-circle" theme="twoTone" twoToneColor="red" />
                 </Radio.Button>
               </Radio.Group>
             </div>

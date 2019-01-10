@@ -244,7 +244,7 @@ export default class Suite extends React.Component {
         <Table
           pagination={ !this.props.showSvg }
           columns={ columns }
-          expandedRowKeys={ failKeys }
+          defaultExpandedRowKeys={ failKeys }
           expandedRowRender={ record =>
             <div>
               <SyntaxHighlighter

@@ -66,7 +66,7 @@ class App extends React.Component {
     [].slice.call(document.querySelectorAll('image')).forEach(image => {
       image.addEventListener('click', function(e) {
         const href = e.target.getAttribute('href');
-        window.open(href);
+        href && window.open(href);
       }, false);
     })
 

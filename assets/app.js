@@ -12,6 +12,7 @@ import {
   Row,
   Layout,
   Radio,
+  Empty,
   BackTop,
 } from 'antd';
 
@@ -98,10 +99,12 @@ class App extends React.Component {
       return null;
     }
 
-    const imgs = _.uniqBy(images, item => item.src);
+    let imgs = _.uniqBy(images, item => item.src)
 
-    const cards = imgs.map((img, index) => {
-      if (img.src && !~img.src.indexOf('undefined')) return (
+    imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'))
+
+    let cards = imgs.map((img, index) => {
+      return (
         <Col key={ index } span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
@@ -112,8 +115,12 @@ class App extends React.Component {
             />
           </Card>
         </Col>
-      );
+      )
     })
+
+    if (!imgs.length) {
+      cards = <Empty />;
+    }
 
     return (
       <Row style={{

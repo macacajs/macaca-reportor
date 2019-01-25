@@ -14,6 +14,7 @@ import {
   Radio,
   Empty,
   BackTop,
+  Modal,
 } from 'antd';
 
 import io from 'socket.io-client';
@@ -59,17 +60,15 @@ class App extends React.Component {
       output,
       caseShowType,
       hashError: output.stats.failures,
-      images: []
+      images: [],
+      modalVisible: false,
+      currentModalImage: '',
+      currentModalTitle: 'Test Image',
     };
   }
 
   componentDidMount() {
-    [].slice.call(document.querySelectorAll('image')).forEach(image => {
-      image.addEventListener('click', function(e) {
-        const href = e.target.getAttribute('href');
-        href && window.open(href);
-      }, false);
-    })
+    this.addImageEvent();
 
     let timer = setInterval(() => {
       if (window.images) {
@@ -79,6 +78,49 @@ class App extends React.Component {
         })
       }
     }, 100);
+  }
+
+  addImageEvent() {
+    document.body.addEventListener('click', e => {
+      const target = e.target;
+      const tagName = target.tagName.toUpperCase();
+      let href = '';
+      let title = '';
+
+      if (tagName === 'IMAGE') {
+        href = target.getAttribute('href');
+        const titleContainer = target.nextElementSibling;
+        title = titleContainer && titleContainer.querySelector('tspan').innerHTML;
+      } else if (tagName === 'IMG') {
+        href = target.getAttribute('src');
+        title = target.getAttribute('data-title');
+      }
+
+      if (href && title) {
+        this.showModal(href, title);
+      }
+    }, false);
+  }
+
+  showModal(href, title) {
+    this.setState({
+      modalVisible: true,
+      currentModalImage: href,
+      currentModalTitle: title || 'Test Image',
+    });
+  }
+
+  handleModalOk(e) {
+    console.log(e);
+    this.setState({
+      modalVisible: false,
+    });
+  }
+
+  handleModalCancel(e) {
+    this.setState({
+      modalVisible: false,
+    });
   }
 
   handleRadioChange(e) {
@@ -91,7 +133,11 @@ class App extends React.Component {
   }
 
   handleOpenImg(e) {
-    window.open(e.target.src);
+    const href = e.target.src;
+    const title = e.target.getAttribute('data-title');
+    if (href) {
+      this.showModal(href, title)
+    }
   }
 
   renderImages(images) {
@@ -108,7 +154,7 @@ class App extends React.Component {
         <Col key={ index } span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
-            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ img.src } />}
+            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ img.src } data-title={ img.text } />}
           >
             <Meta
               description={ img.text }
@@ -181,6 +227,21 @@ class App extends React.Component {
             })
           }
           { this.renderImages(imgs) }
+          <Modal
+            title={this.state.currentModalTitle}
+            width="70%"
+            style={{ textAlign: 'center' }}
+            visible={this.state.modalVisible}
+            onOk={this.handleModalOk.bind(this)}
+            onCancel={this.handleModalCancel.bind(this)}
+          >
+            <a target="_blank" href={ this.state.currentModalImage }>
+              <img
+                style={{ height: document.body.clientHeight * 0.7 + 'px' }}
+                src={ this.state.currentModalImage }>
+              </img>
+            </a>
+          </Modal>
         </Content>
         <Footer>
           &copy;&nbsp;<a href={ pkg.homepage }>Macaca Team</a> { new Date().getFullYear() }

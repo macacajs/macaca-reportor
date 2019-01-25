@@ -23,6 +23,10 @@ export default class Suite extends React.Component {
   constructor(props) {
     super(props);
     this.uid = this._guid();
+
+    this.state = {
+      expandKeys: [],
+    }
   }
 
   _guid() {
@@ -138,9 +142,20 @@ export default class Suite extends React.Component {
     }
   }
 
+  handleExpand(expanded, record) {
+    const expandKeys = [...this.state.expandKeys]
+    if (!~expandKeys.indexOf(record.key)) {
+      expandKeys.push(record.key);
+    } else {
+      expandKeys.splice(expandKeys.indexOf(record.key), 1);
+    }
+    this.setState({
+      expandKeys,
+    });
+  }
+
   render() {
     let allTest = [];
-    let failKeys = [];
     let allStats = {
       totalFailures: 0,
       totalPasses: 0,
@@ -155,26 +170,23 @@ export default class Suite extends React.Component {
     const getTest = suites => {
       suites.forEach(suite => {
         suite.tests.forEach(test => {
+          // save test images
+          if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
+            images.push({
+              src: test.context.replace(/"/g, ''),
+              text: test.title,
+            });
+          }
+
           if ((this.props.showError && test.fail) || !this.props.showError) {
-            test.key = this._guid();
+            test.key = test.uuid;
             test.state = this.getCaseState(test);
 
             if (test.duration && !~(test.duration + '').indexOf('ms')) {
               test.duration = `${test.duration}ms`;
             }
 
-            if (!test.pass) {
-              failKeys.push(test.key);
-            }
-
             allTest.push(test);
-
-            if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
-              images.push({
-                src: test.context.replace(/"/g, ''),
-                text: test.title,
-              });
-            }
           }
         });
         allStats.totalFailures += suite.totalFailures;
@@ -244,7 +256,8 @@ export default class Suite extends React.Component {
         <Table
           pagination={ !this.props.showSvg }
           columns={ columns }
-          defaultExpandedRowKeys={ failKeys }
+          expandedRowKeys={ this.state.expandKeys }
+          onExpand={this.handleExpand.bind(this)}
           expandedRowRender={ record =>
             <div>
               <SyntaxHighlighter
@@ -254,7 +267,7 @@ export default class Suite extends React.Component {
               >
                 { record.code }
               </SyntaxHighlighter>
-              { record.context && !~record.context.indexOf('undefined') && <a href={ record.context.replace(/\"/g, '') } target="_blank"><img src={ record.context.replace(/\"/g, '') } /></a>}
+              { record.context && !~record.context.indexOf('undefined') && <img data-title={ record.fullTitle } src={ record.context.replace(/\"/g, '') } />}
             </div>
           }
           dataSource={ allTest }

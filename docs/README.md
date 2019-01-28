@@ -5,6 +5,15 @@ heroImage: https://macacajs.github.io/macaca-logo/svg/monkey.svg
 actionText: Try it Out →
 actionLink: /guide/install.html
 features:
+- title: tree view
+  details: Supports displaying tree view
+- title: Multi-type use case
+  details: With the automatic screenshot function, you can portray the complete link
+- title: Pass rate
+  details: Ability to support success, failure, skipping, etc.
+- title: Secondary development
+  details: Support secondary custom development, add features
+
 footer: MIT Licensed | Copyright © 2015-present Macaca
 
 ---

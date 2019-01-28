@@ -5,6 +5,14 @@ heroImage: https://macacajs.github.io/macaca-logo/svg/monkey.svg
 actionText: 立即使用 →
 actionLink: /zh/guide/install.html
 features:
+- title: 链路刻画
+  details: 配合自动截图功能能够刻画完整的链路
+- title: 多类型用例
+  details: 能够支持成功、失败、跳过等类型的用例展示
+- title: 通过率计算
+  details: 支持计算用例通过率
+- title: 二次开发
+  details: 支持二次定制开发，添加功能
 footer: MIT Licensed | Copyright © 2015-present Macaca
 
 ---

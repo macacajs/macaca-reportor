@@ -2,7 +2,9 @@
 
 ---
 
-## Best Practice
+## 编写用例最佳实践
+
+最外层 suit 名称为文件名，然后是用例 suit 名称，之后是用例。
 
 ```javascript
 const appendToContext = require('macaca-reporter').appendToContext;
@@ -59,4 +61,18 @@ describe('XXXYYY.test.js', function() {
 
 ```
 
+## 通过 macaca-cli 运行
+
+```
+$ macaca run --reporter macaca-reporter
+```
+
+Example: [sample-nodejs](https://github.com/macaca-sample/sample-nodejs)
+
+
+## 通过 mocha 运行
+
+```
+$ mocha run --reporter macaca-reporter
+```
 

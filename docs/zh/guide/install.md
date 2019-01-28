@@ -9,3 +9,4 @@
 ```bash
 $ npm install macaca-reporter -g
 ```
+

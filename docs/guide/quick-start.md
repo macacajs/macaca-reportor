@@ -4,6 +4,8 @@
 
 ## Best Practice
 
+The outer layer suit name is the file name, then the use case suit name, followed by the use case.
+
 ```javascript
 const appendToContext = require('macaca-reporter').appendToContext;
 
@@ -59,4 +61,18 @@ describe('XXXYYY.test.js', function() {
 
 ```
 
+## Usage with macaca-cli
+
+```
+$ macaca run --reporter macaca-reporter
+```
+
+Example: [sample-nodejs](https://github.com/macaca-sample/sample-nodejs)
+
+
+## Run with mocha
+
+```
+$ mocha run --reporter macaca-reporter
+```
 

@@ -62,7 +62,11 @@ module.exports = {
           macacaEcosystem.en,
         ],
         sidebar: {
-          '/guide/': genSidebarConfig('Guide')
+          '/guide/': genSidebarConfig([
+            'Guide',
+            'Advanced',
+            'Community'
+          ])
         }
       },
       '/zh/': {
@@ -84,7 +88,11 @@ module.exports = {
           macacaEcosystem.zh,
         ],
         sidebar: {
-          '/zh/guide/': genSidebarConfig('指南')
+          '/zh/guide/': genSidebarConfig([
+            '使用指南',
+            '高级进阶',
+            '社区支持'
+          ])
         }
       },
     },
@@ -99,6 +107,34 @@ function genSidebarConfig(title) {
       children: [
         'install',
         'quick-start',
+      ],
+    },
+  ];
+}
+
+function genSidebarConfig(arr) {
+  return [
+    {
+      title: arr[0],
+      collapsable: false,
+      children: [
+        'install',
+        'feature',
+        'quick-start',
+      ],
+    },
+    {
+      title: arr[1],
+      collapsable: false,
+      children: [
+        'integration',
+      ],
+    },
+    {
+      title: arr[2],
+      collapsable: false,
+      children: [
+        'presentations',
       ],
     },
   ];

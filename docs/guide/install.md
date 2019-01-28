@@ -9,3 +9,4 @@ To install macaca-reporter, [Node.js](https://nodejs.org) environment is require
 ```bash
 $ npm install macaca-reporter -g
 ```
+

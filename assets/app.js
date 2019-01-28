@@ -110,13 +110,6 @@ class App extends React.Component {
     });
   }
 
-  handleModalOk(e) {
-    console.log(e);
-    this.setState({
-      modalVisible: false,
-    });
-  }
-
   handleModalCancel(e) {
     this.setState({
       modalVisible: false,
@@ -232,12 +225,12 @@ class App extends React.Component {
             width="70%"
             style={{ textAlign: 'center' }}
             visible={this.state.modalVisible}
-            onOk={this.handleModalOk.bind(this)}
             onCancel={this.handleModalCancel.bind(this)}
+            footer={null}
           >
             <a target="_blank" href={ this.state.currentModalImage }>
               <img
-                style={{ height: document.body.clientHeight * 0.7 + 'px' }}
+                style={{ height: document.body.clientHeight * 0.67 + 'px' }}
                 src={ this.state.currentModalImage }>
               </img>
             </a>

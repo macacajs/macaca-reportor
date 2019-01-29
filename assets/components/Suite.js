@@ -174,7 +174,7 @@ export default class Suite extends React.Component {
           if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
             images.push({
               src: test.context.replace(/"/g, ''),
-              text: test.title,
+              text: test.fullTitle,
             });
           }
 

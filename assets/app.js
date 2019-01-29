@@ -143,14 +143,15 @@ class App extends React.Component {
     imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'));
 
     let cards = imgs.map((img, index) => {
+      const title = img.text
       return (
         <Col key={ index } span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
-            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ img.src } data-title={ img.text } />}
+            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ img.src } data-title={ title } />}
           >
             <Meta
-              description={ img.text }
+              description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }
             />
           </Card>
         </Col>

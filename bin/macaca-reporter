@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const path = require('path');
+const EOL = require('os').EOL;
+const program = require('commander');
+
+const cwd = process.cwd();
+const pkg = require('../package.json');
+const render = require('../lib/render');
+const _ = require('../lib/common/helper');
+
+const {
+  chalk
+} = _;
+
+program
+  .option('-d, --data <s>',     'reporter data')
+  .option('-v, --versions',     'output version infomation')
+  .usage('');
+
+program.parse(process.argv);
+
+if (program.versions) {
+  console.info(`${EOL} ${chalk.grey(pkg.version)} ${EOL}`);
+  process.exit(0);
+}
+
+if (!program.data) {
+  program.help();
+  process.exit(0);
+}
+
+const data = require(path.join(cwd, program.data));
+render(data);
+

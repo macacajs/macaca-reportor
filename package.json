@@ -19,6 +19,7 @@
     "url": "git@github.com:macacajs/macaca-reporter.git"
   },
   "dependencies": {
+    "commander": "^2.19.0",
     "json-stringify-safe": "^5.0.1",
     "macaca-coverage": "^1.0.3",
     "macaca-utils": "^1.0.0",

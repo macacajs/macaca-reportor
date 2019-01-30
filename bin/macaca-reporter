@@ -6,7 +6,6 @@ const path = require('path');
 const EOL = require('os').EOL;
 const program = require('commander');
 
-const cwd = process.cwd();
 const pkg = require('../package.json');
 const render = require('../lib/render');
 const _ = require('../lib/common/helper');
@@ -14,9 +13,10 @@ const _ = require('../lib/common/helper');
 const {
   chalk
 } = _;
+const cwd = process.cwd();
 
 program
-  .option('-d, --data <s>',     'reporter data')
+  .option('-d, --data <s>',     'data for reporter')
   .option('-v, --versions',     'output version infomation')
   .usage('');
 
@@ -32,6 +32,6 @@ if (!program.data) {
   process.exit(0);
 }
 
-const data = require(path.join(cwd, program.data));
+const data = path.resolve(cwd, program.data);
 render(data);
 

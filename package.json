@@ -74,13 +74,13 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --mode=development",
-    "dev:test": "NODE_ENV=test npm run dev",
+    "dev:e2e": "NODE_ENV=test npm run dev",
     "build": "cross-env NODE_ENV=production webpack -p",
     "lint": "eslint --ext js,jsx --fix assets lib test",
     "prepublish": "npm run build",
-    "serve": "npm run dev:test &",
-    "test": "macaca run -d ./test",
-    "test:unit": "mocha",
+    "serve": "npm run dev:e2e &",
+    "test:e2e": "macaca run -d ./e2e --verbose -f mocha --f_options --recursive",
+    "test:unit": "nyc --reporter=lcov --reporter=text mocha",
     "contributor": "git-contributor",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"

@@ -6,6 +6,7 @@ npm-debug.log
 .idea/*
 Thumbs.db
 coverage/
+.nyc_output/
 reports/
 screenshots/
 build/

@@ -6,11 +6,11 @@ const Flatted = require('flatted');
 const {
   getSuite,
   stringify
-} = require('../lib/common/helper');
+} = require('../../lib/common/helper');
 
-const originData = require('./fixtures/origin');
+const originData = require('../fixtures/origin');
 
-describe.only('test/render.test.js', () => {
+describe('test/lib/helper.test.js', () => {
 
   it('getSuite should be ok', () => {
     const res = getSuite(stringify(originData), {

@@ -12,14 +12,10 @@ install:
 script:
   - npm i vuepress macaca-ecosystem
   - npm run docs:build
-  - cd ./docs_dist
-  - git init
-  - git add --all .
-  - git commit -m "Travis CI Auto Builder"
-  - git push --quiet --force https://$REPO_TOKEN@github.com/macacajs/macaca-reporter.git master:gh-pages
-  - cd ..
+  - $(npm bin)/macaca-ecosystem push --cwd ./docs_dist --branch gh-pages
   - npm i
   - npm run lint
-  - npm run serve && npm run test
+  - npm run test:unit
+  - npm run serve && npm run test:e2e
 after_script:
   - npm install coveralls@2 && cat ./coverage/lcov.info | coveralls

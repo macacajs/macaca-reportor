@@ -1,6 +1,6 @@
 {
   "name": "macaca-reporter",
-  "version": "1.2.31",
+  "version": "1.3.0",
   "description": "Reporter used for mocha and other frameworks.",
   "keywords": [
     "macaca",
@@ -33,6 +33,7 @@
     "xlogger": "^1.0.6"
   },
   "devDependencies": {
+    "@antv/g6-editor": "~1.2.0",
     "antd": "^3.6.1",
     "babel-core": "^6.25.0",
     "babel-eslint": "^8.0.1",
@@ -61,6 +62,7 @@
     "macaca-electron": "2",
     "macaca-wd": "2",
     "mini-css-extract-plugin": "^0.4.0",
+    "nyc": "^13.2.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-syntax-highlighter": "^5.6.3",
@@ -76,7 +78,7 @@
     "dev": "webpack-dev-server --mode=development",
     "dev:e2e": "NODE_ENV=test npm run dev",
     "build": "cross-env NODE_ENV=production webpack -p",
-    "lint": "eslint --ext js,jsx --fix assets lib test",
+    "lint": "eslint --ext js,jsx --fix assets lib test e2e",
     "prepublish": "npm run build",
     "serve": "npm run dev:e2e &",
     "test:e2e": "macaca run -d ./e2e --verbose -f mocha --f_options --recursive",

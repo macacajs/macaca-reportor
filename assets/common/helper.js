@@ -10,4 +10,25 @@ _.guid = () => {
   });
 };
 
+_.autoWrapText = text => {
+  let res = '';
+  let number = 15;
+  let flag = 0;
+
+  for (let i = 0; i < text.length; i++) {
+    const current = text[i]
+    res += current;
+    flag++;
+    if (escape(current).length > 4) {
+      flag++;
+    }
+
+    if (flag >= number) {
+      res += '\n';
+      flag = 0;
+    }
+  }
+  return res;
+};
+
 module.exports = _;

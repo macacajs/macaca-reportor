@@ -1,12 +1,12 @@
 'use strict';
 
 const {
-  webpackHelper,
+  webpackHelper
 } = require('macaca-wd');
 
 const {
   driver,
-  BASE_URL,
+  BASE_URL
 } = webpackHelper;
 
 describe('test/macaca-reporter.test.js', () => {

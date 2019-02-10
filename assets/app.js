@@ -5,7 +5,6 @@ import ReactDom from 'react-dom';
 
 import {
   Affix,
-  Progress,
   Icon,
   Card,
   Col,
@@ -25,6 +24,7 @@ const Content = Layout.Content;
 const { Meta } = Card;
 
 import _ from './common/helper';
+import Mind from './components/Mind';
 import Suite from './components/Suite';
 import NavBar from './components/NavBar';
 import Screen from './components/Screen';
@@ -47,18 +47,18 @@ class App extends React.Component {
 
     const output = JSON.parse(decodeURI(container.getAttribute(dataAttr)));
 
-    let caseShowType = 'tree';
+    let showType = 'tree';
     const hashMode = location.hash.replace('#mode=', '');
 
     if (hashMode) {
-      caseShowType = hashMode;
+      showType = hashMode;
     } else if (output.stats.failures) {
-      caseShowType = 'error';
+      showType = 'error';
     }
 
     this.state = {
       output,
-      caseShowType,
+      showType,
       hashError: output.stats.failures,
       images: [],
       modalVisible: false,
@@ -121,7 +121,7 @@ class App extends React.Component {
     location.hash = `mode=${radio}`;
 
     this.setState({
-      caseShowType: e.target.value,
+      showType: e.target.value,
     });
   }
 
@@ -134,7 +134,7 @@ class App extends React.Component {
   }
 
   renderImages(images) {
-    if (this.state.caseShowType !== 'image') {
+    if (this.state.showType !== 'image') {
       return null;
     }
 
@@ -177,7 +177,7 @@ class App extends React.Component {
     const stats = this.state.output && this.state.output.stats;
     const current = this.state.output && this.state.output.current;
     const originSuites = this.state.output && this.state.output.suites;
-    const caseShowType = this.state.caseShowType;
+    const showType = this.state.showType;
     const imgs = this.state.images;
 
     return (
@@ -190,9 +190,12 @@ class App extends React.Component {
         <Content>
           <div className="panel-container">
             <div className="case-show-panel">
-              <Radio.Group className="case-show-radio" value={caseShowType} onChange={this.handleRadioChange.bind(this)}>
+              <Radio.Group className="case-show-radio" value={showType} onChange={this.handleRadioChange.bind(this)}>
                 <Radio.Button value="tree">
                   <Icon type="eye-o" />
+                </Radio.Button>
+                <Radio.Button value="mind">
+                  <Icon type="cluster" />
                 </Radio.Button>
                 <Radio.Button value="image">
                   <Icon type="picture" />
@@ -206,14 +209,16 @@ class App extends React.Component {
               </Radio.Group>
             </div>
           </div>
+          
           <Screen current={ current } />
+          { showType === 'mind' && <Mind suites={ originSuites.suites }/> }
           {
-            originSuites.suites && originSuites.suites.map((suite, index) => {
+            showType !== 'mind' && originSuites.suites && originSuites.suites.map((suite, index) => {
               return (
                 <Suite
-                  showSuite={ caseShowType !== 'image' }
-                  showSvg={ caseShowType !== 'text' && caseShowType !== 'error' }
-                  showError={ caseShowType === 'error' }
+                  showSuite={ showType !== 'image' }
+                  showSvg={ showType !== 'text' && showType !== 'error' }
+                  showError={ showType === 'error' }
                   suite={ suite }
                   key={ index }
                 />
@@ -242,7 +247,7 @@ class App extends React.Component {
         </Footer>
         <BackTop />
       </Layout>
-     )
+    )
   }
 }
 

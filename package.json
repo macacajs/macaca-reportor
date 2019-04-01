@@ -25,12 +25,12 @@
   "dependencies": {
     "commander": "^2.19.0",
     "is-ci": "^2.0.0",
-    "json-stringify-safe": "^5.0.1",
     "macaca-coverage": "^1.0.3",
     "macaca-utils": "^1.0.0",
     "microtemplate": "^1.0.2",
     "mocha": "^5.2.0",
     "remap-istanbul": "^0.11.0",
+    "safe-json-stringify": "^1.2.0",
     "xlogger": "^1.0.6"
   },
   "devDependencies": {

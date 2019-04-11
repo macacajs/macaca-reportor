@@ -29,6 +29,27 @@ export default class Suite extends React.Component {
     }
   }
 
+  _getD3UnitData(item) {
+    const imgSrc = item.context && item.context.replace(/\"/g, '');
+    const isValidImg = imgSrc && imgSrc.toLowerCase() !== '[undefined]';
+    return {
+      text: _.autoWrapText(item.title),
+      image: isValidImg ? imgSrc : null
+    };
+  }
+
+  // handle single-layer cases: describle -> it
+  _transtromOneTree(suite) {
+    suite.name = suite.title;
+    suite.tests.forEach(test => {
+      test.id = _.guid();
+      test.data = this._getD3UnitData(test);
+    })
+    suite.children = suite.tests;
+    return suite;
+  }
+
+  // handle muti-layer cases: describle -> describl -> it
   _transtromTree(suites) {
     if (suites.length > this.maxD3Height) {
       this.maxD3Height = suites.length;
@@ -37,12 +58,7 @@ export default class Suite extends React.Component {
       suite.name = suite.title;
       suite.children = suite.tests;
       suite.id = _.guid();
-      const imgSrc = suite.context && suite.context.replace(/\"/g, '');
-      const isVilidImg = imgSrc && imgSrc.toLowerCase() !== '[undefined]';
-      suite.data = {
-        text: _.autoWrapText(suite.title),
-        image: isVilidImg ? imgSrc : null
-      };
+      suite.data = this._getD3UnitData(suite);
 
       if (suite.suites && suite.suites.length) {
         suite.children = suite.children.concat(suite.suites);
@@ -67,32 +83,37 @@ export default class Suite extends React.Component {
   }
 
   componentDidMount() {
-    this.maxD3Height = 0;
-    var suite = this.props.suite;
-    var title = suite.title;
-    var suites = this._transtromTree(suite.suites);
-    suites = this._deleteNullTest(suites);
-
-    var data = {
-      image: null,
-      text: _.autoWrapText(title)
-    };
-
-    var selector = `.d3-tree-${this.uid}`;
-
-    var d3tree = new D3Tree({
-      selector: selector,
+    this.maxD3Height = 1;
+    let suites;
+    const suite = this.props.suite;
+    const d3Data = {
       data: {
-        data: data,
-        children: suites,
+        image: null,
+        text: _.autoWrapText(suite.title)
       },
+    }
+
+    if (suite.tests.length) {
+      suites = this._transtromOneTree(suite);
+      d3Data.children = suites.children;
+    } else {
+      suites = this._transtromTree(suite.suites);
+      d3Data.children = suites;
+      suites = this._deleteNullTest(suites);
+    }
+
+    const selector = `.d3-tree-${this.uid}`;
+
+    const d3tree = new D3Tree({
+      selector: selector,
+      data: d3Data,
       width: document.querySelector('ul.head').clientWidth,
       height: this.maxD3Height * 300,
       duration: 500,
       imageHeight: 200,
       imageWidth: 200,
       imageMargin: 10,
-      itemConfigHandle: img => {
+      itemConfigHandle: () => {
         return {
           isVertical: false
         };
@@ -126,50 +147,55 @@ export default class Suite extends React.Component {
   }
 
   render() {
-    let allTest = [];
-    let allStats = {
+    const allTest = [];
+    const suite = this.props.suite;
+    const allStats = {
       totalFailures: 0,
       totalPasses: 0,
       totalPending: 0,
       totalSkipped: 0,
       totalTests: 0,
       duration: 0,
-      title: this.props.suite.title,
-      file: this.props.suite.file
+      title: suite.title,
+      file: suite.file
     };
 
-    const getTest = suites => {
-      suites.forEach(suite => {
-        suite.tests.forEach(test => {
-          // save test images
-          if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
-            images.push({
-              src: test.context.replace(/"/g, ''),
-              text: test.fullTitle,
-            });
+    const handleTest = suite => {
+      suite.tests.forEach(test => {
+        // save test images
+        if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
+          images.push({
+            src: test.context.replace(/"/g, ''),
+            text: test.fullTitle,
+          });
+        }
+
+        if ((this.props.showError && test.fail) || !this.props.showError) {
+          test.key = test.uuid;
+          test.state = this.getCaseState(test);
+
+          if (test.duration && !~(test.duration + '').indexOf('ms')) {
+            test.duration = `${test.duration}ms`;
           }
 
-          if ((this.props.showError && test.fail) || !this.props.showError) {
-            test.key = test.uuid;
-            test.state = this.getCaseState(test);
+          allTest.push(test);
+        }
+      });
+      allStats.totalFailures += suite.totalFailures;
+      allStats.totalPasses += suite.totalPasses;
+      allStats.totalPending += suite.totalPending;
+      allStats.totalSkipped += suite.totalSkipped;
+      allStats.totalTests += suite.totalTests;
+      allStats.duration += suite.duration;
+    }
 
-            if (test.duration && !~(test.duration + '').indexOf('ms')) {
-              test.duration = `${test.duration}ms`;
-            }
-
-            allTest.push(test);
-          }
-        });
-        allStats.totalFailures += suite.totalFailures;
-        allStats.totalPasses += suite.totalPasses;
-        allStats.totalPending += suite.totalPending;
-        allStats.totalSkipped += suite.totalSkipped;
-        allStats.totalTests += suite.totalTests;
-        allStats.duration += suite.duration;
-        getTest(suite.suites);
+    if (suite.tests.length) {
+      handleTest(suite);
+    } else {
+      suite.suites.forEach(suite => {
+        handleTest(suite);
       });
     }
-    getTest(this.props.suite.suites);
 
     const columns = [
       {

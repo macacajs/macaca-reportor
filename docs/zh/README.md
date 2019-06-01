@@ -26,10 +26,10 @@ $ npm i macaca-reporter -g
 使用 Macaca Reporter 能够清晰的看到更多用例组织关系。
 :::
 
-![](http://wx4.sinaimg.cn/large/6d308bd9gy1fivuatxep5j21kw13dgs6.jpg)
+![](/macaca-reporter/assets/6d308bd9gy1fivuatxep5j21kw13dgs6.jpg)
 
 ::: tip
 用例展示更加友好易用。
 :::
 
-![](http://wx3.sinaimg.cn/large/6d308bd9gy1fivtfos9r5j21kw130af7.jpg)
+![](/macaca-reporter/assets/6d308bd9gy1fivtfos9r5j21kw130af7.jpg)

@@ -47,8 +47,8 @@ This project follows the git-contributor [spec](https://github.com/xudafeng/git-
 ## Sample
 
 <div align="center">
-  <img src="http://wx4.sinaimg.cn/large/6d308bd9gy1fivuatxep5j21kw13dgs6.jpg" />
-  <img src="http://wx3.sinaimg.cn/large/6d308bd9gy1fivtfos9r5j21kw130af7.jpg" />
+  <img src="https://macacajs.github.io/macaca-datahub/assets/macaca-reporter/assets/6d308bd9gy1fivuatxep5j21kw13dgs6.jpg" />
+  <img src="https://macacajs.github.io/macaca-datahub/assets/macaca-reporter/assets/6d308bd9gy1fivtfos9r5j21kw130af7.jpg" />
 </div>
 
 ## Thanks to

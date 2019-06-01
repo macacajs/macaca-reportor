@@ -26,10 +26,10 @@ $ npm i macaca-reporter --save
 Use Macaca Reporter to see more use case visualizations.
 :::
 
-![](http://wx4.sinaimg.cn/large/6d308bd9gy1fivuatxep5j21kw13dgs6.jpg)
+![](/macaca-reporter/assets/6d308bd9gy1fivuatxep5j21kw13dgs6.jpg)
 
 ::: tip
 Use cases show more friendly.
 :::
 
-![](http://wx3.sinaimg.cn/large/6d308bd9gy1fivtfos9r5j21kw130af7.jpg)
+![](/macaca-reporter/assets/6d308bd9gy1fivtfos9r5j21kw130af7.jpg)

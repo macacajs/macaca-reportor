@@ -187,15 +187,15 @@ export default class Suite extends React.Component {
       allStats.totalSkipped += suite.totalSkipped;
       allStats.totalTests += suite.totalTests;
       allStats.duration += suite.duration;
+
+      if (suite.suites.length) {
+        suite.suites.forEach(child => {
+          handleTest(child);
+        });
+      }
     }
 
-    if (suite.tests.length) {
-      handleTest(suite);
-    } else {
-      suite.suites.forEach(suite => {
-        handleTest(suite);
-      });
-    }
+    handleTest(suite);
 
     const columns = [
       {

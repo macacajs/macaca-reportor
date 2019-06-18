@@ -41,6 +41,7 @@ export default class Suite extends React.Component {
   // handle single-layer cases: describle -> it
   _transtromOneTree(suite) {
     suite.name = suite.title;
+    this.maxD3Height = suite.tests.length;
     suite.tests.forEach(test => {
       test.id = _.guid();
       test.data = this._getD3UnitData(test);

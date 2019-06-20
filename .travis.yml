@@ -6,8 +6,8 @@ addons:
   apt:
     packages:
       - xvfb
+      - libgconf-2-4
 install:
-  - apt-get install libgconf-2-4
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1366x768x24 > /dev/null 2>&1 &
 script:

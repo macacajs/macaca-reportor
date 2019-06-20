@@ -61,7 +61,7 @@
     "macaca-cli": "2",
     "macaca-ecosystem": "*",
     "macaca-electron": "2",
-    "macaca-wd": "2",
+    "macaca-wd": "3",
     "mini-css-extract-plugin": "^0.4.0",
     "nyc": "^13.2.0",
     "react": "^15.6.1",

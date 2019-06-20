@@ -9,12 +9,12 @@ const {
   BASE_URL
 } = webpackHelper;
 
-describe('test/macaca-reporter.test.js', () => {
+describe('e2e/macaca-reporter.test.js', () => {
   before(() => {
     return driver
       .initWindow({
-        width: 375,
-        height: 667,
+        width: 800,
+        height: 600,
         deviceScaleFactor: 2
       });
   });

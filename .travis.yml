@@ -7,10 +7,11 @@ addons:
     packages:
       - xvfb
 install:
-  - npm i vuepress macaca-ecosystem
-script:
+  - apt-get install libgconf-2-4
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1366x768x24 > /dev/null 2>&1 &
+script:
+  - npm i vuepress macaca-ecosystem
   - npm run docs:build
   - $(npm bin)/macaca-ecosystem push --cwd ./docs_dist --branch gh-pages
   - npm i

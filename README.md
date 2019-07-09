@@ -32,6 +32,21 @@
 
 [Offcial Site](//macacajs.github.io/macaca-reporter)
 
+## Config
+
+Support custom JSON file name by ths config:
+
+mocha.opts:
+```
+--reporter macaca-reporter
+--reporter-options reportJSONFilename=customReportJSONFilename
+```
+
+with command:
+```
+$ mocha test.js --reporter mochawesome --reporter-options reportJSONFilename=customReportJSONFilename
+```
+
 <!-- GITCONTRIBUTOR_START -->
 
 ## Contributors

@@ -90,7 +90,7 @@ class App extends React.Component {
 
       if (tagName === 'IMAGE') {
         href = target.getAttribute('href');
-        const titleContainer = target.nextElementSibling;
+        const titleContainer = target.parentNode.querySelector('text');
         const textArray = [].slice.call(titleContainer && titleContainer.querySelectorAll('tspan') || [])
         title = textArray.reduce((pre, current) => pre + current.innerHTML, '')
       } else if (tagName === 'IMG') {
@@ -237,7 +237,7 @@ class App extends React.Component {
           >
             <a target="_blank" href={ this.state.currentModalImage }>
               <img
-                style={{ height: document.body.clientHeight * 0.67 + 'px' }}
+                style={{ maxWidth: '100%', maxWidth: '100%' }}
                 src={ this.state.currentModalImage }>
               </img>
             </a>

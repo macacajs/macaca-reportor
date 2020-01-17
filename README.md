@@ -39,12 +39,17 @@ Support custom JSON file name by ths config:
 mocha.opts:
 ```
 --reporter macaca-reporter
---reporter-options distDir=customReporterDirname reportJSONFilename=customReportJSONFilename
+--reporter-options reportJSONFilename=customReportJSONFilename
 ```
 
 with command:
 ```
-$ mocha test.js --reporter macaca-reporter --reporter-options distDir=customReporterDirname reportJSONFilename=customReportJSONFilename
+$ mocha test.js --reporter macaca-reporter --reporter-options reportJSONFilename=customReportJSONFilename
+```
+
+custom reporter directory with environment variable
+```
+MACACA_REPORTER_DIR=customDirName
 ```
 
 <!-- GITCONTRIBUTOR_START -->

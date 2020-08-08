@@ -80,6 +80,11 @@ This project follows the git-contributor [spec](https://github.com/xudafeng/git-
 
 [For more](//github.com/macacajs/macaca-reporter/network/dependents)
 
+## Related
+
+- [macaca-reporter-jest](https://github.com/macacajs/macaca-reporter-jest)
+- [macaca-reporter-java-plugin](https://github.com/macacajs/macaca-reporter-java-plugin)
+
 ## Thanks to
 
 - [d3-tree](//github.com/zhuyali/d3-tree)

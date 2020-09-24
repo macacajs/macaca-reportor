@@ -153,19 +153,22 @@ class App extends React.Component {
 
     let cards = imgs.map((img, index) => {
       const title = img.text
-      return (
-        <Col key={ index } span={4} style={{ padding: '5px' }}>
+      const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); // handle multi image
+
+      return imgList.map(item => (
+        <Col key={ _.guid() } span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
-            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ img.src } data-title={ title } />}
+            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ item } data-title={ title } />}
           >
             <Meta
               description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }
             />
           </Card>
         </Col>
-      );
+      ));
     });
+    cards =  _.flatten(cards);
 
     if (!imgs.length) {
       cards = <Empty description={null} />;

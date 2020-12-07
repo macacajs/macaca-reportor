@@ -147,6 +147,13 @@ export default class Suite extends React.Component {
     });
   }
 
+  getImages(record) {
+    if (record.context && !~record.context.indexOf('undefined')) {
+      return record.context.replace(/[\[\] "]/g,'').split('\n').filter(i => i);
+    }
+    return [];
+  }
+
   render() {
     const allTest = [];
     const suite = this.props.suite;
@@ -265,7 +272,7 @@ export default class Suite extends React.Component {
               >
                 { record.code }
               </SyntaxHighlighter>
-              { record.context && !~record.context.indexOf('undefined') && <img data-title={ record.fullTitle } src={ record.context.replace(/\"/g, '') } />}
+              {this.getImages(record).map((src, index) => <img key={index} data-title={ record.fullTitle } style={{height: '400px', width: 'auto'}} src={ src } />)}
             </div>
           }
           dataSource={ allTest }

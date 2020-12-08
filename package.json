@@ -1,6 +1,6 @@
 {
   "name": "macaca-reporter",
-  "version": "1.3.30",
+  "version": "1.3.31",
   "description": "Reporter used for mocha and other frameworks.",
   "keywords": [
     "macaca",

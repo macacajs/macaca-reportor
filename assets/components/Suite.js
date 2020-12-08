@@ -154,6 +154,19 @@ export default class Suite extends React.Component {
     return [];
   }
 
+  getErrorInfo(record) {
+    const err = record.err;
+    if (!err || !err.name) return null;
+
+    return <div className="suite-error-info">
+      <h1>{err.name}:</h1>
+      {err.expected && <p>expected: {err.expected}</p>}
+      {err.actual && <p>actual: {err.actual}</p>}
+      <p>{err.message}</p>
+      <p style={{whiteSpace: 'pre-wrap'}}>{err.stack}</p>
+    </div>
+  }
+
   render() {
     const allTest = [];
     const suite = this.props.suite;
@@ -272,6 +285,7 @@ export default class Suite extends React.Component {
               >
                 { record.code }
               </SyntaxHighlighter>
+              {this.getErrorInfo(record)}
               {this.getImages(record).map((src, index) => <img key={index} data-title={ record.fullTitle } style={{height: '400px', width: 'auto'}} src={ src } />)}
             </div>
           }

@@ -4,6 +4,7 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import ReactDom from 'react-dom';
 import CircularJson from 'macaca-circular-json';
+import { openPhotoSwipe } from './components/PhotoSwipe';
 
 import {
   Affix,
@@ -15,7 +16,6 @@ import {
   Radio,
   Empty,
   BackTop,
-  Modal,
 } from 'antd';
 
 import io from 'socket.io-client';
@@ -69,9 +69,6 @@ class App extends React.Component {
       showType,
       hashError: output.stats.failures,
       images: [],
-      modalVisible: false,
-      currentModalImage: '',
-      currentModalTitle: 'Test Image',
     };
   }
 
@@ -92,37 +89,42 @@ class App extends React.Component {
     document.body.addEventListener('click', e => {
       const target = e.target;
       const tagName = target.tagName.toUpperCase();
-      let href = '';
-      let title = '';
 
       if (tagName === 'IMAGE') {
-        href = target.getAttribute('href');
-        const titleContainer = target.parentNode.querySelector('text');
-        const textArray = [].slice.call(titleContainer && titleContainer.querySelectorAll('tspan') || [])
-        title = textArray.reduce((pre, current) => pre + current.innerHTML, '')
-      } else if (tagName === 'IMG') {
-        href = target.getAttribute('src');
-        title = target.getAttribute('data-title');
-      }
-
-      if (href && title) {
-        this.showModal(href, title);
+        let index = 0;
+        const items = [];
+        document.querySelectorAll('image').forEach((item, key) => {
+          if (item === target) {
+            index = key;
+          }
+          const href = item.getAttribute('href');
+          const titleContainer = item.parentNode.querySelector('text');
+          const textArray = [].slice.call(titleContainer && titleContainer.querySelectorAll('tspan') || []);
+          const title = textArray.reduce((pre, current) => pre + current.innerHTML, '');
+          items.push({
+            src: href,
+            w: 960,
+            h: 720,
+            title,
+          });
+        });
+        openPhotoSwipe(items, index);
+      } else if (tagName === 'IMG' && target.classList.contains('picture-item')) {
+        const index = parseInt(target.getAttribute('data-index'), 10);
+        const items = [];
+        document.querySelectorAll('img.picture-item').forEach(item => {
+          const src = item.getAttribute('src');
+          const title = item.getAttribute('data-title');
+          items.push({
+            src,
+            w: 960,
+            h: 720,
+            title,
+          });
+        });
+        openPhotoSwipe(items, index);
       }
     }, false);
-  }
-
-  showModal(href, title) {
-    this.setState({
-      modalVisible: true,
-      currentModalImage: href,
-      currentModalTitle: title || 'Test Image',
-    });
-  }
-
-  handleModalCancel(e) {
-    this.setState({
-      modalVisible: false,
-    });
   }
 
   handleRadioChange(e) {
@@ -132,14 +134,6 @@ class App extends React.Component {
     this.setState({
       showType: e.target.value,
     });
-  }
-
-  handleOpenImg(e) {
-    const href = e.target.src;
-    const title = e.target.getAttribute('data-title');
-    if (href) {
-      this.showModal(href, title)
-    }
   }
 
   renderImages(images) {
@@ -155,11 +149,11 @@ class App extends React.Component {
       const title = img.text
       const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); // handle multi image
 
-      return imgList.map(item => (
+      return imgList.map((item, key) => (
         <Col key={ _.guid() } span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
-            cover={<img onClick={this.handleOpenImg.bind(this)} className="picture-item" src={ item } data-title={ title } />}
+            cover={<img data-index={index} className="picture-item" src={ item } data-title={ title } />}
           >
             <Meta
               description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }
@@ -237,21 +231,6 @@ class App extends React.Component {
             })
           }
           { this.renderImages(imgs) }
-          <Modal
-            title={this.state.currentModalTitle}
-            width="70%"
-            style={{ textAlign: 'center' }}
-            visible={this.state.modalVisible}
-            onCancel={this.handleModalCancel.bind(this)}
-            footer={null}
-          >
-            <a target="_blank" href={ this.state.currentModalImage }>
-              <img
-                style={{ maxWidth: '100%', maxWidth: '100%' }}
-                src={ this.state.currentModalImage }>
-              </img>
-            </a>
-          </Modal>
         </Content>
         {
           showType !== 'mind' && (

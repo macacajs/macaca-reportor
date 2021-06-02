@@ -4,8 +4,7 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import ReactDom from 'react-dom';
 import CircularJson from 'macaca-circular-json';
-import { openPhotoSwipe } from './components/PhotoSwipe';
-
+import RcViewer from '@hanyk/rc-viewer'
 import {
   Affix,
   Icon,
@@ -46,7 +45,6 @@ window.addEventListener('load', () => {
   ReactGA.pageview(window.location.pathname + window.location.search);
   process.env.traceFragment;
 });
-
 class App extends React.Component {
 
   constructor(props) {
@@ -73,7 +71,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.addImageEvent();
 
     let timer = setInterval(() => {
       if (window.images) {
@@ -83,48 +80,6 @@ class App extends React.Component {
         })
       }
     }, 100);
-  }
-
-  addImageEvent() {
-    document.body.addEventListener('click', e => {
-      const target = e.target;
-      const tagName = target.tagName.toUpperCase();
-
-      if (tagName === 'IMAGE') {
-        let index = 0;
-        const items = [];
-        document.querySelectorAll('image').forEach((item, key) => {
-          if (item === target) {
-            index = key;
-          }
-          const href = item.getAttribute('href');
-          const titleContainer = item.parentNode.querySelector('text');
-          const textArray = [].slice.call(titleContainer && titleContainer.querySelectorAll('tspan') || []);
-          const title = textArray.reduce((pre, current) => pre + current.innerHTML, '');
-          items.push({
-            src: href,
-            w: 960,
-            h: 720,
-            title,
-          });
-        });
-        openPhotoSwipe(items, index);
-      } else if (tagName === 'IMG' && target.classList.contains('picture-item')) {
-        const index = parseInt(target.getAttribute('data-index'), 10);
-        const items = [];
-        document.querySelectorAll('img.picture-item').forEach(item => {
-          const src = item.getAttribute('src');
-          const title = item.getAttribute('data-title');
-          items.push({
-            src,
-            w: 960,
-            h: 720,
-            title,
-          });
-        });
-        openPhotoSwipe(items, index);
-      }
-    }, false);
   }
 
   handleRadioChange(e) {
@@ -153,7 +108,7 @@ class App extends React.Component {
         <Col key={ _.guid() } span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
-            cover={<img data-index={index} className="picture-item" src={ item } data-title={ title } />}
+            cover={<img data-index={index} src={ item } data-title={ title } />}
           >
             <Meta
               description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }
@@ -169,15 +124,18 @@ class App extends React.Component {
     }
 
     return (
-      <Row style={{
-        width: '1280px',
-        margin: '30px auto'
-      }}>
+      
+      <RcViewer ref='viewer'>
+        <Row style={{
+          width: '1280px',
+          margin: '30px auto'
+        }} id="images">
         {cards}
       </Row>
+    </RcViewer>
     );
   }
-
+  
   render() {
 
     const stats = this.state.output && this.state.output.stats;

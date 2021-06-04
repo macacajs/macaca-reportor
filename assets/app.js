@@ -123,12 +123,6 @@ class App extends React.Component {
             src: href,
             title,
           }, pos));
-          if (item === target) {
-            console.log(Object.assign({
-              src: href,
-              title,
-            }, pos))
-          }
         });
         openPhotoSwipe(items, index);
       } else if (tagName === 'IMG' && target.classList.contains('picture-item')) {

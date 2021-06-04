@@ -90,23 +90,45 @@ class App extends React.Component {
       const target = e.target;
       const tagName = target.tagName.toUpperCase();
 
+      const zoom = 0.6;
+
       if (tagName === 'IMAGE') {
         let index = 0;
         const items = [];
         document.querySelectorAll('image').forEach((item, key) => {
+          const { width: imageWidth, height: imageHeight } = item.getBoundingClientRect();
+          const ratio = (imageWidth / imageHeight).toFixed(2);
+          const { width: screenWidth, height: screenHeight } = window.screen;
           if (item === target) {
             index = key;
+          }
+          let pos = {};
+          // horizontal
+          if (ratio > 1) {
+            pos = {
+              w: screenWidth * zoom,
+              h: screenWidth * zoom / ratio,
+            }
+          } else {
+            pos = {
+              w: screenHeight * zoom * ratio,
+              h: screenHeight * zoom,
+            }
           }
           const href = item.getAttribute('href');
           const titleContainer = item.parentNode.querySelector('text');
           const textArray = [].slice.call(titleContainer && titleContainer.querySelectorAll('tspan') || []);
           const title = textArray.reduce((pre, current) => pre + current.innerHTML, '');
-          items.push({
+          items.push(Object.assign({
             src: href,
-            w: 960,
-            h: 720,
             title,
-          });
+          }, pos));
+          if (item === target) {
+            console.log(Object.assign({
+              src: href,
+              title,
+            }, pos))
+          }
         });
         openPhotoSwipe(items, index);
       } else if (tagName === 'IMG' && target.classList.contains('picture-item')) {
@@ -115,12 +137,26 @@ class App extends React.Component {
         document.querySelectorAll('img.picture-item').forEach(item => {
           const src = item.getAttribute('src');
           const title = item.getAttribute('data-title');
-          items.push({
+          const { width: imageWidth, height: imageHeight } = item.getBoundingClientRect();
+          const ratio = (imageWidth / imageHeight).toFixed(2);
+          const { width: screenWidth, height: screenHeight } = window.screen;
+          let pos = {};
+          // horizontal
+          if (ratio > 1) {
+            pos = {
+              w: screenWidth * zoom,
+              h: screenWidth * zoom / ratio,
+            }
+          } else {
+            pos = {
+              w: screenHeight * zoom * ratio,
+              h: screenHeight * zoom,
+            }
+          }
+          items.push(Object.assign({
             src,
-            w: 960,
-            h: 720,
             title,
-          });
+          }, pos));
         });
         openPhotoSwipe(items, index);
       }
@@ -149,8 +185,8 @@ class App extends React.Component {
       const title = img.text
       const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); // handle multi image
 
-      return imgList.map((item, key) => (
-        <Col key={ _.guid() } span={4} style={{ padding: '5px' }}>
+      return imgList.map((item) => (
+        <Col key={_.guid()} span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
             cover={<img data-index={index} className="picture-item" src={ item } data-title={ title } />}

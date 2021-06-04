@@ -61,5 +61,7 @@ module.exports = {
       'process.env.VERSION': JSON.stringify(pkg.version),
       'process.env.traceFragment': traceFragment
     })
-  ]
+  ],
+
+  devtool: 'source-map',
 };

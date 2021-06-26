@@ -1,16 +1,11 @@
-dist
-.DS_Store
 node_modules
 package-lock.json
-npm-debug.log
-.idea/*
-Thumbs.db
 coverage/
 .nyc_output/
 reports/
 screenshots/
 build/
+dist/
 docs_dist/
-logs/
 *.sw*
 *.un~

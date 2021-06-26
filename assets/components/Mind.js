@@ -1,14 +1,9 @@
 import React from 'react';
-
+import remove from 'lodash/remove';
 import Editor from '@antv/g6-editor';
+import { guid } from '@/common/helper';
 
-import _ from '../common/helper';
-
-require('./Mind.less');
-
-const {
-  remove
-} = _;
+import './Mind.less';
 
 export default class Mind extends React.Component {
 
@@ -19,10 +14,10 @@ export default class Mind extends React.Component {
   }
 
   _transtromTree(suites) {
-    suites.forEach((suite, index) => {
+    suites.forEach((suite) => {
       suite.name = suite.title;
       suite.children = suite.tests;
-      suite.id = _.guid();
+      suite.id = guid();
       if (suite.suites && suite.suites.length) {
         suite.children = suite.children.concat(suite.suites);
       }

@@ -1,13 +1,11 @@
 'use strict';
 
 import React from 'react';
-
 import {
   Row,
   Col
 } from 'antd';
-
-require('./Screen.less');
+import './Screen.less';
 
 export default class NavBar extends React.Component {
 

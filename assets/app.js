@@ -5,7 +5,6 @@ import ReactGA from 'react-ga';
 import ReactDom from 'react-dom';
 import CircularJson from 'macaca-circular-json';
 import { openPhotoSwipe } from './components/PhotoSwipe';
-
 import {
   Affix,
   Icon,
@@ -17,7 +16,8 @@ import {
   Empty,
   BackTop,
 } from 'antd';
-
+import uniqBy from 'lodash/uniqBy';
+import flatten from 'lodash/flatten';
 import io from 'socket.io-client';
 
 const Header = Layout.Header;
@@ -25,17 +25,16 @@ const Footer = Layout.Footer;
 const Content = Layout.Content;
 const { Meta } = Card;
 
-import _ from './common/helper';
+import { guid } from '@/common/helper';
 import Mind from './components/Mind';
 import Suite from './components/Suite';
 import NavBar from './components/NavBar';
 import Screen from './components/Screen';
-
-const pkg = require('../package.json')
+import pkg from '../package.json';
 
 window.images = [];
 
-require('./app.less');
+import './app.less';
 
 let container;
 const dataAttr = 'data-output';
@@ -171,7 +170,7 @@ class App extends React.Component {
       return null;
     }
 
-    let imgs = _.uniqBy(images, item => item.src);
+    let imgs = uniqBy(images, item => item.src);
 
     imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'));
 
@@ -180,7 +179,7 @@ class App extends React.Component {
       const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); // handle multi image
 
       return imgList.map((item) => (
-        <Col key={_.guid()} span={4} style={{ padding: '5px' }}>
+        <Col key={guid()} span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
             cover={<img data-index={index} className="picture-item" src={ item } data-title={ title } />}
@@ -192,7 +191,7 @@ class App extends React.Component {
         </Col>
       ));
     });
-    cards =  _.flatten(cards);
+    cards = flatten(cards);
 
     if (!imgs.length) {
       cards = <Empty description={null} />;

@@ -4,25 +4,20 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import {
   xcode
 } from 'react-syntax-highlighter/dist/styles';
-
+import remove from 'lodash/remove';
+import find from 'lodash/find';
 import {
   Table,
   Icon
 } from 'antd';
-
-import _ from '../common/helper';
-
-const {
-  remove
-} = _;
-
-require('./Suite.less');
+import { autoWrapText, guid } from '@/common/helper';
+import './Suite.less';
 
 export default class Suite extends React.Component {
 
   constructor(props) {
     super(props);
-    this.uid = _.guid();
+    this.uid = guid();
 
     this.state = {
       expandKeys: [],
@@ -33,7 +28,7 @@ export default class Suite extends React.Component {
     const imgSrc = item.context && item.context.replace(/\"/g, '');
     const isValidImg = imgSrc && imgSrc.toLowerCase() !== '[undefined]';
     return {
-      text: _.autoWrapText(item.title),
+      text: autoWrapText(item.title),
       image: isValidImg ? imgSrc : null
     };
   }
@@ -43,7 +38,7 @@ export default class Suite extends React.Component {
     suite.name = suite.title;
     this.maxD3Height = suite.tests.length;
     suite.tests.forEach(test => {
-      test.id = _.guid();
+      test.id = guid();
       test.data = this._getD3UnitData(test);
     })
     suite.children = suite.tests;
@@ -58,7 +53,7 @@ export default class Suite extends React.Component {
     suites.forEach((suite, index) => {
       suite.name = suite.title;
       suite.children = suite.tests;
-      suite.id = _.guid();
+      suite.id = guid();
       suite.data = this._getD3UnitData(suite);
 
       if (suite.suites && suite.suites.length) {
@@ -90,7 +85,7 @@ export default class Suite extends React.Component {
     const d3Data = {
       data: {
         image: null,
-        text: _.autoWrapText(suite.title) || '',
+        text: autoWrapText(suite.title) || '',
       },
     }
 
@@ -184,7 +179,7 @@ export default class Suite extends React.Component {
     const handleTest = suite => {
       suite.tests.forEach(test => {
         // save test images
-        if (test.context && !_.find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
+        if (test.context && !find(images, item => item.src.replace(/"/g, '') === test.context.replace(/"/g, ''))) {
           images.push({
             src: test.context.replace(/"/g, ''),
             text: test.fullTitle,

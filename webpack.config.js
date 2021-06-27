@@ -6,17 +6,24 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const traceFragment = require('macaca-ecosystem/lib/trace-fragment');
 
 const pkg = require('./package');
+const assetsPath = path.join(__dirname, 'assets');
 
 module.exports = {
 
   entry: {
-    [pkg.name]: path.join(__dirname, 'assets', 'app')
+    [pkg.name]: path.join(assetsPath, 'app')
   },
 
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/dist',
     filename: '[name].js'
+  },
+
+  resolve: {
+    alias: {
+      '@': assetsPath,
+    },
   },
 
   module: {

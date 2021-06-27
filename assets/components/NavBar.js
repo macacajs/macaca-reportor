@@ -4,10 +4,8 @@ import React from 'react';
 import {
   Progress
 } from 'antd';
-
-require('./NavBar.less');
-
-const pkg = require('../../package.json');
+import './NavBar.less';
+import pkg from '../../package.json';
 
 export default class NavBar extends React.Component {
 

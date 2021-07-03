@@ -163,6 +163,7 @@ export default class Suite extends React.Component {
   }
 
   render() {
+
     const allTest = [];
     const suite = this.props.suite;
     const allStats = {
@@ -281,7 +282,13 @@ export default class Suite extends React.Component {
                 { record.code }
               </SyntaxHighlighter>
               {this.getErrorInfo(record)}
-              {this.getImages(record).map((src, index) => <img key={index} data-title={ record.fullTitle } style={{height: '400px', width: 'auto'}} src={ src } />)}
+              {this.getImages(record).map((src, index) => {
+                if(src.endsWith('.webm')) {
+                  return <video key={index} data-title={ record.fullTitle } style={{height: '400px', width: 'auto'}} src={ src } controls />
+                } else{
+                  return <img key={index} data-title={ record.fullTitle } style={{height: '400px', width: 'auto'}} src={ src } />
+                }
+              })}
             </div>
           }
           dataSource={ allTest }

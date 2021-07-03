@@ -22,7 +22,8 @@ describe('e2e/macaca-reporter.test.js', () => {
   afterEach(function () {
     return driver
       .coverage()
-      .saveScreenshots(this);
+      .saveScreenshots(this)
+      .stopMediaRecorder();
   });
 
   after(() => {
@@ -31,9 +32,21 @@ describe('e2e/macaca-reporter.test.js', () => {
       .quit();
   });
 
-  it('page render should be ok', () => {
+  it('page render should be ok', function() {
     return driver
       .getUrl(BASE_URL)
-      .sleep(5000);
+      .startMediaRecorder()
+      .sleep(2000);
+  });
+
+  it('mind render should be ok', function() {
+    return driver
+      .getUrl(BASE_URL)
+      .startMediaRecorder()
+      .sleep(2000)
+      .saveScreenshots(this)
+      .elementByClassName('anticon-cluster')
+      .click()
+      .sleep(2000);
   });
 });

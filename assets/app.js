@@ -76,6 +76,7 @@ class App extends React.Component {
 
     let timer = setInterval(() => {
       if (window.images) {
+
         clearInterval(timer)
         this.setState({
           images: window.images
@@ -182,7 +183,11 @@ class App extends React.Component {
         <Col key={guid()} span={4} style={{ padding: '5px' }}>
           <Card
             hoverable
-            cover={<img data-index={index} className="picture-item" src={ item } data-title={ title } />}
+            cover={
+              item.endsWith('.webm') ?
+              <video data-index={index} className="picture-item" src={ item } data-title={ title } controls /> :
+              <img data-index={index} className="picture-item" src={ item } data-title={ title } />
+          }
           >
             <Meta
               description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }

@@ -36,5 +36,4 @@ describe('e2e/macaca-reporter.test.js', () => {
       .getUrl(BASE_URL)
       .sleep(5000);
   });
-
 });

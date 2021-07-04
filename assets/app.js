@@ -184,10 +184,23 @@ class App extends React.Component {
           <Card
             hoverable
             cover={
-              item.endsWith('.webm') ?
-              <video data-index={index} className="picture-item" src={ item } data-title={ title } controls /> :
-              <img data-index={index} className="picture-item" src={ item } data-title={ title } />
-          }
+              item.endsWith('.webm')
+              ?
+                <video
+                  data-index={index}
+                  className="picture-item"
+                  src={ item }
+                  data-title={ title }
+                  controls
+                />
+              :
+                <img
+                  data-index={index}
+                  className="picture-item"
+                  src={ item }
+                  data-title={ title }
+                />
+            }
           >
             <Meta
               description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }

@@ -83,7 +83,7 @@
     "lint": "eslint --ext js,jsx --fix assets lib test e2e",
     "prepublish": "npm run build",
     "serve": "npm run dev:e2e &",
-    "test:e2e": "macaca run --verbose -d ./e2e --reporter macaca-reporter",
+    "test:e2e": "macaca run -d ./e2e --verbose -f mocha --f_options --recursive",
     "test:unit": "nyc --reporter=lcov --reporter=text mocha",
     "contributor": "git-contributor",
     "docs:dev": "vuepress dev docs",

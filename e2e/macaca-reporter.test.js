@@ -22,31 +22,33 @@ describe('e2e/macaca-reporter.test.js', () => {
   afterEach(function () {
     return driver
       .coverage()
-      .saveScreenshots(this)
-      .stopMediaRecorder();
+      .saveScreenshots(this);
   });
 
   after(() => {
     return driver
       .openReporter(false)
+      .waitForVideosSave()
       .quit();
   });
 
   it('page render should be ok', function() {
     return driver
       .getUrl(BASE_URL)
-      .startMediaRecorder()
-      .sleep(2000);
+      .startMediaRecorder(this)
+      .sleep(2000)
+      .stopMediaRecorder();
   });
 
   it('mind render should be ok', function() {
     return driver
       .getUrl(BASE_URL)
-      .startMediaRecorder()
+      .startMediaRecorder(this)
       .sleep(2000)
       .saveScreenshots(this)
       .elementByClassName('anticon-cluster')
       .click()
-      .sleep(2000);
+      .sleep(2000)
+      .stopMediaRecorder();
   });
 });

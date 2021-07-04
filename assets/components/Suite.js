@@ -284,9 +284,19 @@ export default class Suite extends React.Component {
               {this.getErrorInfo(record)}
               {this.getImages(record).map((src, index) => {
                 if(src.endsWith('.webm')) {
-                  return <video key={index} data-title={ record.fullTitle } style={{height: '400px', width: 'auto'}} src={ src } controls />
+                  return <video
+                    key={index}
+                    data-title={ record.fullTitle }
+                    style={{height: '400px', width: 'auto'}}
+                    src={ src } controls
+                  />
                 } else{
-                  return <img key={index} data-title={ record.fullTitle } style={{height: '400px', width: 'auto'}} src={ src } />
+                  return <img
+                    key={index}
+                    data-title={ record.fullTitle }
+                    style={{height: '400px', width: 'auto'}}
+                    src={ src }
+                  />
                 }
               })}
             </div>

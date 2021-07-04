@@ -4,6 +4,7 @@ coverage/
 .nyc_output/
 reports/
 screenshots/
+videos/
 build/
 dist/
 docs_dist/

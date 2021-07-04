@@ -23,7 +23,7 @@ export default class NavBar extends React.Component {
           </a>
         </li>
         <li>
-          <span className="page-title">Macaca Reporter with video</span>
+          <span className="page-title">Macaca Reporter</span>
         </li>
         <li>
           <h5>suites</h5>

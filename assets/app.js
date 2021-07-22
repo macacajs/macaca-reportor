@@ -68,6 +68,7 @@ class App extends React.Component {
       showType,
       hashError: output.stats.failures,
       images: [],
+      additionalPicNum: 0,
     };
   }
 
@@ -83,6 +84,13 @@ class App extends React.Component {
         })
       }
     }, 100);
+  }
+
+  setIndex(index,subIndex){
+    if(subIndex>0){
+      this.state.additionalPicNum++
+    }
+    return index + this.state.additionalPicNum
   }
 
   addImageEvent() {
@@ -190,7 +198,7 @@ class App extends React.Component {
                 ?
                   <a href={item} target="_blank">
                     <video
-                      data-index={index}
+                      data-index={this.setIndex(index,key)}
                       className="video-item"
                       src={item}
                       data-title={title}
@@ -199,7 +207,7 @@ class App extends React.Component {
                   </a>
                 :
                   <img
-                    data-index={index}
+                    data-index={this.setIndex(index,key)}
                     className="picture-item"
                     src={item}
                     data-title={title}

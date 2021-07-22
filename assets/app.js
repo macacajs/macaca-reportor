@@ -46,7 +46,6 @@ window.addEventListener('load', () => {
 });
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
     container = document.querySelector(`#${pkg.name}`);
@@ -61,13 +60,13 @@ class App extends React.Component {
     } else if (output.stats.failures) {
       showType = 'error';
     }
+    this.additionalPicNum = 0
 
     this.state = {
       output,
       showType,
       hashError: output.stats.failures,
       images: [],
-      additionalPicNum: 0,
     };
   }
 
@@ -85,11 +84,11 @@ class App extends React.Component {
     }, 100);
   }
 
-  setIndex(index,subIndex){
-    if(subIndex>0){
-      this.state.additionalPicNum++
+  setIndex(index, subIndex) {
+    if(subIndex > 0) {
+      this.additionalPicNum++
     }
-    return index + this.state.additionalPicNum
+    return index + this.additionalPicNum
   }
 
   addImageEvent() {

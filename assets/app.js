@@ -33,7 +33,9 @@ import Screen from './components/Screen';
 import pkg from '../package.json';
 
 window.images = [];
+import {a} from './images';
 
+window.images = a.a
 import './app.less';
 
 let container;
@@ -187,7 +189,7 @@ class App extends React.Component {
       const title = img.text
       const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); // handle multi image
 
-      return imgList.map((item) => {
+      return imgList.map((item, key) => {
         const isVideo = item.endsWith('.webm');
         return (
           <Col key={guid()} span={isVideo ? 8 : 4} style={{ padding: '5px' }}>

@@ -85,8 +85,8 @@ class App extends React.Component {
   }
 
   setIndex(index, subIndex) {
-    if(subIndex > 0) {
-      this.additionalPicNum++
+    if (subIndex > 0) {
+      this.additionalPicNum++;
     }
     return index + this.additionalPicNum
   }

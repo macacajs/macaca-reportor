@@ -33,9 +33,6 @@ import Screen from './components/Screen';
 import pkg from '../package.json';
 
 window.images = [];
-import {a} from './images';
-
-window.images = a.a
 import './app.less';
 
 let container;

@@ -60,7 +60,7 @@ class App extends React.Component {
     } else if (output.stats.failures) {
       showType = 'error';
     }
-    this.additionalPicNum = 0
+    this.additionalPicNum = 0;
 
     this.state = {
       output,
@@ -88,7 +88,7 @@ class App extends React.Component {
     if (subIndex > 0) {
       this.additionalPicNum++;
     }
-    return index + this.additionalPicNum
+    return index + this.additionalPicNum;
   }
 
   addImageEvent() {
@@ -196,7 +196,7 @@ class App extends React.Component {
                 ?
                   <a href={item} target="_blank">
                     <video
-                      data-index={this.setIndex(index,key)}
+                      data-index={this.setIndex(index, key)}
                       className="video-item"
                       src={item}
                       data-title={title}
@@ -205,7 +205,7 @@ class App extends React.Component {
                   </a>
                 :
                   <img
-                    data-index={this.setIndex(index,key)}
+                    data-index={this.setIndex(index, key)}
                     className="picture-item"
                     src={item}
                     data-title={title}

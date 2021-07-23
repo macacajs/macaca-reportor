@@ -171,7 +171,7 @@ class App extends React.Component {
     let imgs = uniqBy(images, item => item.src);
     imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'));
     imgs.map(img => {
-      if (img.src.indexOf('\n') > -1) {
+      if (img.src.includes('\n')) {
         const imgList = img.src.split(/\s+/).filter(i => i && i.includes('.'));
         imgList.map(item => {
           imagesList.push({

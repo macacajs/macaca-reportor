@@ -34,7 +34,6 @@ import pkg from '../package.json';
 
 window.images = [];
 import './app.less';
-
 let container;
 const dataAttr = 'data-output';
 const configAttr = 'config-output';
@@ -90,7 +89,6 @@ class App extends React.Component {
       const tagName = target.tagName.toUpperCase();
 
       const zoom = 0.6;
-
       if (tagName === 'IMAGE') {
         let index = 0;
         const items = [];
@@ -127,7 +125,7 @@ class App extends React.Component {
       } else if (tagName === 'IMG' && target.classList.contains('picture-item')) {
         const index = parseInt(target.getAttribute('data-index'), 10);
         const items = [];
-        document.querySelectorAll('img.picture-item').forEach(item => {
+        document.querySelectorAll('#display-items .display-item').forEach(item => {
           const src = item.getAttribute('src');
           const title = item.getAttribute('data-title');
           const { width: imageWidth, height: imageHeight } = item.getBoundingClientRect();
@@ -199,6 +197,7 @@ class App extends React.Component {
       return (
         <Col key={guid()} span={isVideo ? 8 : 4} style={{ padding: '5px' }}>
           <Card
+            id="display-items"
             hoverable
             cover={
               isVideo
@@ -206,7 +205,7 @@ class App extends React.Component {
                 <a href={src} target="_blank">
                   <video
                     data-index={index}
-                    className="video-item"
+                    className="video-item display-item"
                     src={src}
                     data-title={title}
                     controls
@@ -215,7 +214,7 @@ class App extends React.Component {
               :
                 <img
                   data-index={index}
-                  className="picture-item"
+                  className="picture-item display-item"
                   src={src}
                   data-title={title}
                 />

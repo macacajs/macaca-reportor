@@ -166,57 +166,72 @@ class App extends React.Component {
     });
   }
 
+  getImagesList(images) {
+    let imagesList = [];
+    let imgs = uniqBy(images, item => item.src);
+    imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'));
+    imgs.map(img => {
+      if (img.src.indexOf('\n') > -1) {
+        const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); 
+        imgList.map(item => {
+          imagesList.push({
+            text: img.text,
+            src: item,
+          });
+        });
+      } else {
+        imagesList.push(img);
+      }
+    })
+    return imagesList;
+  }
+
   renderImages(images) {
     if (this.state.showType !== 'image') {
       return null;
     }
+    const imagesList = this.getImagesList(images);
 
-    let imgs = uniqBy(images, item => item.src);
+    let cards = imagesList.map((item, index) => {
+      const title = item.text;
+      const src = item.src;
 
-    imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'));
-
-    let cards = imgs.map((img, index) => {
-      const title = img.text
-      const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); // handle multi image
-
-      return imgList.map((item) => {
-        const isVideo = item.endsWith('.webm');
-        return (
-          <Col key={guid()} span={isVideo ? 8 : 4} style={{ padding: '5px' }}>
-            <Card
-              hoverable
-              cover={
-                isVideo
-                ?
-                  <a href={item} target="_blank">
-                    <video
-                      data-index={index}
-                      className="video-item"
-                      src={item}
-                      data-title={title}
-                      controls
-                    />
-                  </a>
-                :
-                  <img
+      const isVideo = src.endsWith('.webm');
+      return (
+        <Col key={guid()} span={isVideo ? 8 : 4} style={{ padding: '5px' }}>
+          <Card
+            hoverable
+            cover={
+              isVideo
+              ?
+                <a href={src} target="_blank">
+                  <video
                     data-index={index}
-                    className="picture-item"
-                    src={item}
+                    className="video-item"
+                    src={src}
                     data-title={title}
+                    controls
                   />
-              }
-            >
-              <Meta
-                description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }
-              />
-            </Card>
-          </Col>
-        );
-      });
+                </a>
+              :
+                <img
+                  data-index={index}
+                  className="picture-item"
+                  src={src}
+                  data-title={title}
+                />
+            }
+          >
+            <Meta
+              description={ title.split(' -- ') && title.split(' -- ').reverse()[0] }
+            />
+          </Card>
+        </Col>
+      );
     });
     cards = flatten(cards);
 
-    if (!imgs.length) {
+    if (!imagesList.length) {
       cards = <Empty description={null} />;
     }
 
@@ -237,7 +252,6 @@ class App extends React.Component {
     const originSuites = this.state.output && this.state.output.suites;
     const showType = this.state.showType;
     const imgs = this.state.images;
-
     return (
       <Layout>
         <Affix>

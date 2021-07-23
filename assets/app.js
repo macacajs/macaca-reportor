@@ -172,7 +172,7 @@ class App extends React.Component {
     imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'));
     imgs.map(img => {
       if (img.src.indexOf('\n') > -1) {
-        const imgList = img.src.replace(/[\[\] "]/g,'').split('\n').filter(i => i); 
+        const imgList = img.src.split(/\s+/).filter(i => i && i.includes('.'));
         imgList.map(item => {
           imagesList.push({
             text: img.text,

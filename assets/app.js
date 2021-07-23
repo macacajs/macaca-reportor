@@ -33,7 +33,6 @@ import Screen from './components/Screen';
 import pkg from '../package.json';
 
 window.images = [];
-
 import './app.less';
 
 let container;
@@ -169,7 +168,7 @@ class App extends React.Component {
   getImagesList(images) {
     let imagesList = [];
     let imgs = uniqBy(images, item => item.src);
-    imgs = imgs.filter(img => img.src && !~img.src.indexOf('undefined'));
+    imgs = imgs.filter(img => img.src && !img.src.includes('undefined'));
     imgs.map(img => {
       if (img.src.includes('\n')) {
         const imgList = img.src.split(/\s+/).filter(i => i && i.includes('.'));
